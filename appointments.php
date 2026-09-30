@@ -3,9 +3,43 @@
 include '../includes/header.php';
 include '../includes/db.php';
 
-$result = $conn->query(
-    "SELECT * FROM appointments ORDER BY appointment_id DESC"
-);
+$message = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $name = trim($_POST["name"]);
+    $email = trim($_POST["email"]);
+    $phone = trim($_POST["phone"]);
+    $doctor = trim($_POST["doctor"]);
+    $date = $_POST["date"];
+    $time = $_POST["time"];
+    $message_text = trim($_POST["message"]);
+
+    $sql = "INSERT INTO appointments
+            (patient_name, email, phone, doctor, appointment_date, appointment_time, message)
+            VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+    $stmt = $conn->prepare($sql);
+
+    $stmt->bind_param(
+        "sssssss",
+        $name,
+        $email,
+        $phone,
+        $doctor,
+        $date,
+        $time,
+        $message_text
+    );
+
+    if ($stmt->execute()) {
+        $message = "Appointment booked successfully!";
+    } else {
+        $message = "Something went wrong. Please try again.";
+    }
+
+    $stmt->close();
+}
 
 ?>
 
@@ -13,9 +47,13 @@ $result = $conn->query(
 
     <div class="container">
 
-        <span class="section-tag">ADMIN</span>
+        <span class="section-tag">APPOINTMENT</span>
 
-        <h1>Appointments</h1>
+        <h1>Book Your Appointment</h1>
+
+        <p>
+            Schedule your consultation with our medical specialists.
+        </p>
 
     </div>
 
@@ -24,51 +62,138 @@ $result = $conn->query(
 
 <section class="section">
 
-    <div class="container">
+    <div class="container form-container">
+
+        <?php if ($message != ""): ?>
+
+            <div class="alert alert-success">
+                <?php echo htmlspecialchars($message); ?>
+            </div>
+
+        <?php endif; ?>
+
 
         <div class="form-card">
 
-            <table style="width:100%;border-collapse:collapse;">
+            <form method="POST">
 
-                <tr>
+                <div class="form-grid">
 
-                    <th>ID</th>
-                    <th>Patient</th>
-                    <th>Doctor</th>
-                    <th>Date</th>
-                    <th>Time</th>
+                    <div class="form-group">
 
-                </tr>
+                        <label>Patient Name</label>
 
-                <?php while ($row = $result->fetch_assoc()): ?>
+                        <input
+                            type="text"
+                            name="name"
+                            placeholder="Enter your full name"
+                            required
+                        >
 
-                <tr>
+                    </div>
 
-                    <td>
-                        <?php echo $row["appointment_id"]; ?>
-                    </td>
 
-                    <td>
-                        <?php echo htmlspecialchars($row["patient_name"]); ?>
-                    </td>
+                    <div class="form-group">
 
-                    <td>
-                        <?php echo htmlspecialchars($row["doctor"]); ?>
-                    </td>
+                        <label>Email</label>
 
-                    <td>
-                        <?php echo $row["appointment_date"]; ?>
-                    </td>
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Enter your email"
+                            required
+                        >
 
-                    <td>
-                        <?php echo $row["appointment_time"]; ?>
-                    </td>
+                    </div>
 
-                </tr>
 
-                <?php endwhile; ?>
+                    <div class="form-group">
 
-            </table>
+                        <label>Phone Number</label>
+
+                        <input
+                            type="tel"
+                            name="phone"
+                            placeholder="Enter phone number"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Select Doctor</label>
+
+                        <select name="doctor" required>
+
+                            <option value="">Choose Doctor</option>
+
+                            <option>Dr. Aarav Patel - Cardiologist</option>
+
+                            <option>Dr. Ananya Shah - Neurologist</option>
+
+                            <option>Dr. Rohan Mehta - General Physician</option>
+
+                            <option>Dr. Priya Desai - Dentist</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Appointment Date</label>
+
+                        <input
+                            type="date"
+                            name="date"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Appointment Time</label>
+
+                        <input
+                            type="time"
+                            name="time"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group full">
+
+                        <label>Message</label>
+
+                        <textarea
+                            name="message"
+                            placeholder="Describe your concern..."
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-submit">
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        Book Appointment →
+                    </button>
+
+                </div>
+
+            </form>
 
         </div>
 
