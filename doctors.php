@@ -1,21 +1,16 @@
-<?php
-
-include '../includes/header.php';
-include '../includes/db.php';
-
-$result = $conn->query(
-    "SELECT * FROM doctors ORDER BY doctor_id DESC"
-);
-
-?>
+<?php include '../includes/header.php'; ?>
 
 <section class="page-hero">
 
     <div class="container">
 
-        <span class="section-tag">ADMIN</span>
+        <span class="section-tag">OUR TEAM</span>
 
-        <h1>Manage Doctors</h1>
+        <h1>Meet Our Doctors</h1>
+
+        <p>
+            Experienced specialists dedicated to your health.
+        </p>
 
     </div>
 
@@ -28,30 +23,52 @@ $result = $conn->query(
 
         <div class="doctors-grid">
 
-            <?php while ($row = $result->fetch_assoc()): ?>
+            <div class="doctor-card">
 
-                <div class="doctor-card">
+                <img src="../images/doctor1.jpg" alt="Doctor">
 
-                    <img
-                        src="../images/doctor1.jpg"
-                        alt="Doctor"
-                    >
-
-                    <div class="doctor-info">
-
-                        <h3>
-                            <?php echo htmlspecialchars($row["name"]); ?>
-                        </h3>
-
-                        <p>
-                            <?php echo htmlspecialchars($row["specialization"]); ?>
-                        </p>
-
-                    </div>
-
+                <div class="doctor-info">
+                    <h3>Dr. Aarav Patel</h3>
+                    <p>Cardiologist</p>
                 </div>
 
-            <?php endwhile; ?>
+            </div>
+
+
+            <div class="doctor-card">
+
+                <img src="../images/doctor2.jpg" alt="Doctor">
+
+                <div class="doctor-info">
+                    <h3>Dr. Ananya Shah</h3>
+                    <p>Neurologist</p>
+                </div>
+
+            </div>
+
+
+            <div class="doctor-card">
+
+                <img src="../images/doctor3.jpg" alt="Doctor">
+
+                <div class="doctor-info">
+                    <h3>Dr. Rohan Mehta</h3>
+                    <p>General Physician</p>
+                </div>
+
+            </div>
+
+
+            <div class="doctor-card">
+
+                <img src="../images/doctor4.jpg" alt="Doctor">
+
+                <div class="doctor-info">
+                    <h3>Dr. Priya Desai</h3>
+                    <p>Dentist</p>
+                </div>
+
+            </div>
 
         </div>
 
