@@ -3,9 +3,7 @@
 include '../includes/header.php';
 include '../includes/db.php';
 
-$result = $conn->query(
-    "SELECT * FROM patients ORDER BY patient_id DESC"
-);
+$result = $conn->query("SELECT * FROM patients ORDER BY patient_id DESC");
 
 ?>
 
@@ -13,9 +11,13 @@ $result = $conn->query(
 
     <div class="container">
 
-        <span class="section-tag">ADMIN</span>
+        <span class="section-tag">PATIENTS</span>
 
-        <h1>Manage Patients</h1>
+        <h1>Patient Records</h1>
+
+        <p>
+            Hospital patient information management.
+        </p>
 
     </div>
 
@@ -28,33 +30,39 @@ $result = $conn->query(
 
         <div class="form-card">
 
-            <table style="width:100%;border-collapse:collapse;">
+            <table style="width:100%; border-collapse:collapse;">
 
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Age</th>
-                    <th>Gender</th>
-                    <th>Phone</th>
+                <tr style="text-align:left;">
+
+                    <th style="padding:12px;">ID</th>
+                    <th style="padding:12px;">Name</th>
+                    <th style="padding:12px;">Age</th>
+                    <th style="padding:12px;">Gender</th>
+                    <th style="padding:12px;">Phone</th>
+
                 </tr>
 
                 <?php while ($row = $result->fetch_assoc()): ?>
 
                 <tr>
 
-                    <td><?php echo $row["patient_id"]; ?></td>
+                    <td style="padding:12px;">
+                        <?php echo $row["patient_id"]; ?>
+                    </td>
 
-                    <td>
+                    <td style="padding:12px;">
                         <?php echo htmlspecialchars($row["name"]); ?>
                     </td>
 
-                    <td><?php echo $row["age"]; ?></td>
+                    <td style="padding:12px;">
+                        <?php echo $row["age"]; ?>
+                    </td>
 
-                    <td>
+                    <td style="padding:12px;">
                         <?php echo htmlspecialchars($row["gender"]); ?>
                     </td>
 
-                    <td>
+                    <td style="padding:12px;">
                         <?php echo htmlspecialchars($row["phone"]); ?>
                     </td>
 
